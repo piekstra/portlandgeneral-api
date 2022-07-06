@@ -2,7 +2,9 @@
 An unofficial Python library for requesting data from the Portland General Electric (PGE) API.
 
 Portland General (PGE): https://portlandgeneral.com/
+
 API: https://api.portlandgeneral.com/
+
 PGE GraphQL Endpoint: https://api.portlandgeneral.com/pge-graphql
 
 ## Installation
@@ -67,6 +69,6 @@ The `Release title` should not include the `v` from the tag and should have a re
 
 Once the release has been published, the [`.github/workflows/python-publish.yml`](.github/workflows/python-publish.yml) GitHub Actions Workflow should trigger and automatically upload the new version to [PyPi](https://pypi.org/) using GitHub secrets credentials.
 
-## Not-so-ecret Keys
+## Not-so-secret Keys
 
 Certain values found in [config.ts](./misc/config.ts) are copied from the [Portland General's Website](https://portlandgeneral.com/) where they conveniently left their source maps. Those values are in fact ***not*** tied to a personal account with Portland General, but are instead specific to their deployments.
