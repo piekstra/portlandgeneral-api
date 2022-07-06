@@ -71,4 +71,4 @@ Once the release has been published, the [`.github/workflows/python-publish.yml`
 
 ## Not-so-secret Keys
 
-Certain values found in [config.ts](./misc/config.ts) are copied from the [Portland General's Website](https://portlandgeneral.com/) where they conveniently left their source maps. Those values are in fact ***not*** tied to a personal account with Portland General, but are instead specific to their deployments.
+Certain values found in [constants.py](./portlandgeneral/constants.py) are copied from the [Portland General's Website](https://portlandgeneral.com/) where they conveniently left their source maps. Those values are in fact ***not*** tied to a personal account with Portland General, but are instead specific to their deployments.
