@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+
+  mock-portlandgeneral-api:
+    image: wiremock/wiremock:2.33.2
+    command: " --port 9090 --verbose"
+    restart: always
+    ports:
+      # HTTP
+      - "9090:9090"
+      # HTTPS
+      # - "8443:8443"
+    volumes:
+      - ./tests/wiremock:/home/wiremock

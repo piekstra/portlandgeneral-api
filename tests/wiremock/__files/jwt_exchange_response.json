@@ -1,0 +1,9 @@
+{
+    "access_token": "greatTOKEN123",
+    "client_id": "rHuS10KrfsLwFAr2sZ7MHh7oHELGx6YK",
+    "developer.email": "shashank.shetti@pgn.com",
+    "expires_in": "1200",
+    "expires_at": "1656717216",
+    "claim_email": "example@email.com",
+    "organization_name": "pge-prod"
+}

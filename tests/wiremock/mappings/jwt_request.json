@@ -1,0 +1,72 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/v1/accounts:signInWithPassword?key=AIzaSyDGQGl4SfFoD_KJTo87PboxfNmq89pifqU",
+        "bodyPatterns": [
+            {
+                "equalToJson": {
+                    "email": "example@email.com",
+                    "password": "portlandgeneral_password",
+                    "returnSecureToken": true
+                }
+            }
+        ],
+        "headers": {
+            "accept": {
+                "equalTo": "*/*"
+            },
+            "accept-language": {
+                "equalTo": "en-US,en;q=0.9"
+            },
+            "cache-control": {
+                "equalTo": "no-cache"
+            },
+            "connection": {
+                "equalTo": "keep-alive"
+            },
+            "content-type": {
+                "equalTo": "application/json"
+            },
+            "dnt": {
+                "equalTo": "1"
+            },
+            "origin": {
+                "equalTo": "https://portlandgeneral.com"
+            },
+            "pragma": {
+                "equalTo": "no-cache"
+            },
+            "referer": {
+                "equalTo": "https://portlandgeneral.com/"
+            },
+            "sec-fetch-dest": {
+                "equalTo": "empty"
+            },
+            "sec-fetch-mode": {
+                "equalTo": "cors"
+            },
+            "sec-fetch-site": {
+                "equalTo": "cross-site"
+            },
+            "sec-ch-ua": {
+                "equalTo": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\""
+            },
+            "sec-ch-ua-mobile": {
+                "equalTo": "?0"
+            },
+            "sec-ch-ua-platform": {
+                "equalTo": "\"macOS\""
+            },
+            "user-agent": {
+                "equalTo": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
+            },
+            "authority": {
+                "equalTo": "identitytoolkit.googleapis.com"
+            }
+        }
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "jwt_response.json"
+    }
+}
