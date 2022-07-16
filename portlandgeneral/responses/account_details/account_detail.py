@@ -49,7 +49,7 @@ class AccountDetail:
         self.preferred_due_date: PreferredDueDateDetails = PreferredDueDateDetails(account_detail_json.get('preferredDueDate'))
         self.is_paperless_bill_enrolled: IsPaperlessBillEnrolledResponse = IsPaperlessBillEnrolledResponse(
             account_detail_json.get('isPaperlessBillEnrolled'))
-        self.equal_pay: PaymentPlanTypeResponse = PaymentPlanTypeResponse(account_detail_json.get('equalPay'))
+        self.equal_pay: PaymentPlanTypeResponse = PaymentPlanTypeResponse(account_detail_json.get('equalpay'))
         self.pending_disconnect: PendingDisconnectStatus = PendingDisconnectStatus(
             account_detail_json.get('pendingDisconnect'))
         self.service_connectivity: ServiceConnectivity = ServiceConnectivity(account_detail_json.get('serviceConnectivity'))
