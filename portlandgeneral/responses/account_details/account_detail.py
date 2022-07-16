@@ -43,13 +43,15 @@ class AccountDetail:
         self.is_logged_in_user_on_account = account_detail_json.get('isLoggedInUserOnAccount')
 
         self.service_addresses: List[ServiceAddress] = [ServiceAddress(j) for j in account_detail_json.get('serviceAddresses')]
-        self.bill_info: BillInfo = account_detail_json.get('billInfo')
-        self.auto_pay: AutoPayInfo = account_detail_json.get('autoPay')
-        self.payment_eligibility: PaymentEligibility = account_detail_json.get('paymentEligibility')
-        self.preferred_due_date: PreferredDueDateDetails = account_detail_json.get('preferredDueDate')
-        self.is_paperless_bill_enrolled: IsPaperlessBillEnrolledResponse = account_detail_json.get('isPaperlessBillEnrolled')
-        self.equal_pay: PaymentPlanTypeResponse = account_detail_json.get('equalPay')
-        self.pending_disconnect: PendingDisconnectStatus = account_detail_json.get('pendingDisconnect')
+        self.bill_info: BillInfo = BillInfo(account_detail_json.get('billInfo'))
+        self.auto_pay: AutoPayInfo = AutoPayInfo(account_detail_json.get('autoPay'))
+        self.payment_eligibility: PaymentEligibility = PaymentEligibility(account_detail_json.get('paymentEligibility'))
+        self.preferred_due_date: PreferredDueDateDetails = PreferredDueDateDetails(account_detail_json.get('preferredDueDate'))
+        self.is_paperless_bill_enrolled: IsPaperlessBillEnrolledResponse = IsPaperlessBillEnrolledResponse(
+            account_detail_json.get('isPaperlessBillEnrolled'))
+        self.equal_pay: PaymentPlanTypeResponse = PaymentPlanTypeResponse(account_detail_json.get('equalPay'))
+        self.pending_disconnect: PendingDisconnectStatus = PendingDisconnectStatus(
+            account_detail_json.get('pendingDisconnect'))
         self.service_connectivity: ServiceConnectivity = ServiceConnectivity(account_detail_json.get('serviceConnectivity'))
         self.alert_details: AlertDetails = AlertDetails(account_detail_json.get('alertDetails'))
         self.peak_time_rebate: PeakTimeRebateProgramStatus = PeakTimeRebateProgramStatus(
