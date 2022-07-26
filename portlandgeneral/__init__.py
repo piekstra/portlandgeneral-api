@@ -1,7 +1,9 @@
 from .client import PortlandGeneralApi
+from .client_opower import OPowerApi
 
 __all__ = [
     'PortlandGeneralApi',
+    'OPowerApi',
 ]
 
 # Windows OS-specific HACK to silence exception thrown on event loop being closed
