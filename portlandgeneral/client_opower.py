@@ -100,19 +100,6 @@ class OPowerApi:
         )
         return response_json
 
-    # as_of should be in iso format YYYY-MM-DD
-    # Uses the current date if not specified
-    def bill_comparison(self, opower_uuid: str, as_of: str = None):
-        params = {
-            'bill': 'PREVIOUS',
-            'asOf': as_of if as_of is not None else date.today().isoformat()
-        }
-        response_json = self._api_request(
-            f'/billComparison-v2/cws/v2/pgn/bill-comparison/customer/{opower_uuid}/bill-dates',
-            params
-        )
-        return response_json
-
     def utility_account_metadata(self, opower_uuid: str):
         params = {
             'preferredUtilityAccountIdType': 'UTILITY_ACCOUNT_ID_1',
