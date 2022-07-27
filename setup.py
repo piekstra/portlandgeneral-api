@@ -18,6 +18,7 @@ setup(
     long_description_content_type='text/markdown',
     install_requires=[
         'requests>=2,<3',
+        'python-dateutil>=2'
     ],
     url='https://github.com/piekstra/portlandgeneral-api',
     python_requires='>=3.7',
