@@ -1,5 +1,4 @@
 import requests
-import json
 from typing import List
 from datetime import date
 from dateutil.relativedelta import relativedelta
@@ -7,9 +6,20 @@ from dateutil.relativedelta import relativedelta
 from .constants import ApigeeWidgetAuth as ApiAuthSettings
 from .constants import OPowerApi as ApiSettings
 
+from .client_auth import ClientAuth
+
 from .responses.auth import TokenExchangeResponse
 
-from .client_auth import ClientAuth
+from .responses.opower import BillDates
+from .responses.opower import BillComparison
+from .responses.opower import CurrentCustomers
+from .responses.opower import UtilityAccountMetadata
+from .responses.opower import UtilityBillingWindows
+from .responses.opower import UtilityUsage
+from .responses.opower import UtilityCost
+from .responses.opower import Weather
+from .responses.opower import NeighborComparison
+from .responses.opower import SolarAccounts
 
 
 class OPowerApi:
@@ -69,15 +79,15 @@ class OPowerApi:
     def login(self, username: str, password: str) -> TokenExchangeResponse:
         return self._client_auth.login(username, password)
 
-    def current_customers(self):
+    def current_customers(self) -> CurrentCustomers:
         response_json = self._api_request(
             '/multi-account-v1/cws/pgn/customers/current'
         )
-        return response_json
+        return CurrentCustomers(response_json)
 
     # as_of should be in iso format YYYY-MM-DD
     # Uses the current date if not specified
-    def bill_dates(self, opower_uuid: str, as_of: str = None):
+    def bill_dates(self, opower_uuid: str, as_of: str = None) -> BillDates:
         params = {
             'asOf': as_of if as_of is not None else date.today().isoformat()
         }
@@ -85,11 +95,11 @@ class OPowerApi:
             f'/billComparison-v2/cws/v2/pgn/bill-comparison/customer/{opower_uuid}/bill-dates',
             params
         )
-        return response_json
+        return BillDates(response_json)
 
     # as_of should be in iso format YYYY-MM-DD
     # Uses the current date if not specified
-    def previous_bill_comparison(self, opower_uuid: str, as_of: str = None):
+    def previous_bill_comparison(self, opower_uuid: str, as_of: str = None) -> BillComparison:
         params = {
             'bill': 'PREVIOUS',
             'asOf': as_of if as_of is not None else date.today().isoformat()
@@ -98,28 +108,28 @@ class OPowerApi:
             f'/billComparison-v2/cws/v2/pgn/bill-comparison/customer/{opower_uuid}/comparison-by-type',
             params
         )
-        return response_json
+        return BillComparison(response_json)
 
-    def utility_account_metadata(self, opower_uuid: str):
+    def utility_account_metadata(self, opower_uuid: str) -> UtilityAccountMetadata:
         params = {
             'preferredUtilityAccountIdType': 'UTILITY_ACCOUNT_ID_1',
             'includeCommercialAndIndustrial': True,
             'customerUuid': opower_uuid
         }
         response_json = self._api_request('/DataBrowser-v1/cws/metadata', params)
-        return response_json
+        return UtilityAccountMetadata(response_json)
 
-    def utility_billing_windows(self, opower_uuid: str):
+    def utility_billing_windows(self, opower_uuid: str) -> UtilityBillingWindows:
         response_json = self._api_request(
             f'/DataBrowser-v1/cws/utilities/pgn/customers/{opower_uuid}/usage_export',
         )
-        return response_json
+        return UtilityBillingWindows(response_json)
 
     # opower_account_utility_account_uuid
     # start_date should be in iso format YYYY-MM-DD
     # end_date should be in iso format YYYY-MM-DD
     # start and end dates will default to today if not specified
-    def utility_usage_hourly(self, utility_account_uuid: str, start_date: str = None, end_date: str = None):
+    def utility_usage_hourly(self, utility_account_uuid: str, start_date: str = None, end_date: str = None) -> UtilityUsage:
         today = date.today()
         yesterday = today - relativedelta(days=1)
 
@@ -134,13 +144,13 @@ class OPowerApi:
             f'/DataBrowser-v1/cws/utilities/pgn/utilityAccounts/{utility_account_uuid}/reads',
             params
         )
-        return response_json
+        return UtilityUsage(response_json)
 
     # opower_account_utility_account_uuid
     # start_date should be in iso format YYYY-MM-DD
     # end_date should be in iso format YYYY-MM-DD
     # start and end dates will default to one month ago and today
-    def utility_usage_daily(self, utility_account_uuid: str, start_date: str = None, end_date: str = None):
+    def utility_usage_daily(self, utility_account_uuid: str, start_date: str = None, end_date: str = None) -> UtilityUsage:
         today = date.today()
         month_ago = today - relativedelta(months=1)
 
@@ -155,10 +165,10 @@ class OPowerApi:
             f'/DataBrowser-v1/cws/utilities/pgn/utilityAccounts/{utility_account_uuid}/reads',
             params
         )
-        return response_json
+        return UtilityUsage(response_json)
 
     # opower_account_utility_account_uuid
-    def utility_usage_billing_periods(self, utility_account_uuid: str, start_date: str = None, end_date: str = None):
+    def utility_usage_billing_periods(self, utility_account_uuid: str, start_date: str = None, end_date: str = None) -> UtilityUsage:
         params = {
             'aggregateType': 'bill',
             'includeEnhancedBilling': False,
@@ -168,13 +178,13 @@ class OPowerApi:
             f'/DataBrowser-v1/cws/utilities/pgn/utilityAccounts/{utility_account_uuid}/reads',
             params
         )
-        return response_json
+        return UtilityUsage(response_json)
 
     # opower_account_utility_account_uuid
     # start_date should be in iso format YYYY-MM-DD
     # end_date should be in iso format YYYY-MM-DD
     # start and end dates will default to today if not specified
-    def utility_cost_hourly(self, utility_account_uuid: str, start_date: str = None, end_date: str = None):
+    def utility_cost_hourly(self, utility_account_uuid: str, start_date: str = None, end_date: str = None) -> UtilityCost:
         today = date.today()
         yesterday = today - relativedelta(days=1)
 
@@ -188,13 +198,13 @@ class OPowerApi:
             f'/DataBrowser-v1/cws/cost/utilityAccount/{utility_account_uuid}',
             params
         )
-        return response_json
+        return UtilityCost(response_json)
 
     # opower_account_utility_account_uuid
     # start_date should be in iso format YYYY-MM-DD
     # end_date should be in iso format YYYY-MM-DD
     # start and end dates will default to one month ago and today
-    def utility_cost_daily(self, utility_account_uuid: str, start_date: str = None, end_date: str = None):
+    def utility_cost_daily(self, utility_account_uuid: str, start_date: str = None, end_date: str = None) -> UtilityCost:
         today = date.today()
         month_ago = today - relativedelta(months=1)
 
@@ -208,10 +218,10 @@ class OPowerApi:
             f'/DataBrowser-v1/cws/cost/utilityAccount/{utility_account_uuid}',
             params
         )
-        return response_json
+        return UtilityCost(response_json)
 
     # opower_account_utility_account_uuid
-    def utility_cost_billing_periods(self, utility_account_uuid: str):
+    def utility_cost_billing_periods(self, utility_account_uuid: str) -> UtilityCost:
         params = {
             'aggregateType': 'bill',
             'includePtr': True
@@ -220,12 +230,12 @@ class OPowerApi:
             f'/DataBrowser-v1/cws/cost/utilityAccount/{utility_account_uuid}',
             params
         )
-        return response_json
+        return UtilityCost(response_json)
 
     # start_date should be in iso format YYYY-MM-DD
     # end_date should be in iso format YYYY-MM-DD
     # start and end dates will default to today if not specified
-    def weather_hourly(self, start_date: str = None, end_date: str = None, use_celsius: bool = False):
+    def weather_hourly(self, start_date: str = None, end_date: str = None, use_celsius: bool = False) -> Weather:
         today = date.today()
         yesterday = today - relativedelta(days=1)
 
@@ -238,12 +248,12 @@ class OPowerApi:
             '/DataBrowser-v1/cws/weather/hourly',
             params
         )
-        return response_json
+        return Weather(response_json)
 
     # start_date should be in iso format YYYY-MM-DD
     # end_date should be in iso format YYYY-MM-DD
     # start and end dates will default to one month ago and today
-    def weather_daily(self, start_date: str = None, end_date: str = None, use_celsius: bool = False):
+    def weather_daily(self, start_date: str = None, end_date: str = None, use_celsius: bool = False) -> Weather:
         today = date.today()
         month_ago = today - relativedelta(months=1)
 
@@ -256,12 +266,12 @@ class OPowerApi:
             '/DataBrowser-v1/cws/weather/daily',
             params
         )
-        return response_json
+        return Weather(response_json)
 
     # intervals should be in iso format YYYY-MM-DD/YYYY-MM-DD like 2022-01-01/2022-02-01
     # If no intervals is specified, a single interval will be included for one month ago to today
     # Note the dates are inclusive and the last date in each interval will be what is returned
-    def weather_aggregates(self, intervals: List[str] = None, use_celsius: bool = False):
+    def weather_aggregates(self, intervals: List[str] = None, use_celsius: bool = False) -> Weather:
         today = date.today()
         month_ago = today - relativedelta(months=1)
 
@@ -277,9 +287,9 @@ class OPowerApi:
             '/DataBrowser-v1/cws/weather/aggregate',
             params
         )
-        return response_json
+        return Weather(response_json)
 
-    def neighbor_utility_comparisons(self, opower_uuid: str):
+    def neighbor_utility_comparisons(self, opower_uuid: str) -> NeighborComparison:
         params = {
             'customerUuid': opower_uuid
         }
@@ -287,10 +297,10 @@ class OPowerApi:
             '/DataBrowser-v1/cws/neighbors/electricity',
             params
         )
-        return response_json
+        return NeighborComparison(response_json)
 
-    def solar_accounts(self, opower_uuid: str):
+    def solar_accounts(self, opower_uuid: str) -> SolarAccounts:
         response_json = self._api_request(
             f'/solar-v1/cws/v1/pgn/customers/{opower_uuid}/accounts'
         )
-        return response_json
+        return SolarAccounts(response_json)
