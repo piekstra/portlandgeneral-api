@@ -27,6 +27,10 @@ You can install this library with `pip`:
 pip3 install .
 ```
 
+## Examples
+
+There are two examples available, one for the [`PortlandGeneralApi`](example.py) and one for the [`OPowerApi`](example_opower.py).
+
 ## Testing
 
 This project leverages `wiremock` to test the code to some extent. Note this will not protect the project from changes that Portland General makes to their API, but instead verifies that the existing code functions consistently as written.
