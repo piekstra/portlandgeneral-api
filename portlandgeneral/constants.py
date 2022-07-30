@@ -1,4 +1,10 @@
-class Api:
+class OPowerApi:
+    def __init__(self, api_host_override: str = None):
+        self.host = 'https://pgn.opower.com' if api_host_override is None else api_host_override
+        self.api_endpoint = self.host + '/ei/edge/apis'
+
+
+class PgeApi:
     def __init__(self, idp_host_override: str = None, api_host_override: str = None):
         self.auth = ApiAuth(idp_host_override)
         self.headers = ApiHeaders()
@@ -10,7 +16,7 @@ class Api:
 class ApiAuth:
     def __init__(self, idp_host_override: str = None):
         self.firebase_idp = AuthFirebaseIdp(idp_host_override)
-        self.apigee = AuthApigee()
+        self.apigee = Apigee()
 
 
 class AuthFirebaseIdp:
@@ -20,9 +26,20 @@ class AuthFirebaseIdp:
         self.endpoint = f'{endpoint_base}/v1/accounts:signInWithPassword'
 
 
-class AuthApigee:
+class Apigee:
+    def __init__(self):
+        self.auth = ApigeeAuth()
+        self.weidget_auth = ApigeeWidgetAuth()
+
+
+class ApigeeAuth:
     def __init__(self):
         self.client_id = 'rHuS10KrfsLwFAr2sZ7MHh7oHELGx6YK'
+
+
+class ApigeeWidgetAuth:
+    def __init__(self):
+        self.client_id = 'VrrKnd0tw2O4zIM6vqHLYn0PxM3ZW2hY'
 
 
 class ApiHeaders:
