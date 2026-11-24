@@ -76,3 +76,9 @@ Once the release has been published, the [`.github/workflows/python-publish.yml`
 ## Not-so-secret Keys
 
 Certain values found in [constants.py](./portlandgeneral/constants.py) are copied from the [Portland General's Website](https://portlandgeneral.com/) where they conveniently left their source maps. Those values are in fact ***not*** tied to a personal account with Portland General, but are instead specific to their deployments.
+
+## License
+
+Copyright (C) 2026 Caleb Piekstra. Licensed under the GNU Affero General Public
+License, version 3 only (AGPL-3.0-only); see [LICENSE](LICENSE). Releases up to
+and including v1.2.0 were published under GPL-3.0.
